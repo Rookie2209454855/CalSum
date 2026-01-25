@@ -74,9 +74,14 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$store.dispatch('deleteFood', row.id);
-        this.$message.success('删除成功');
-      });
+        this.$store.dispatch('deleteFood', row.id)
+          .then(() => {
+            this.$message.success('删除成功');
+          })
+          .catch(error => {
+            this.$message.error(`删除失败: ${error.message}`);
+          });
+      }).catch(() => {});
     },
     handleEdit(row) {
       this.editForm = { ...row };
@@ -84,9 +89,17 @@ export default {
       this.dialogVisible = true;
     },
     confirmEdit() {
-      this.$store.dispatch('updateFood', { ...this.editForm, id: this.currentEditId });
-      this.dialogVisible = false;
-      this.$message.success('更新成功');
+      this.$store.dispatch('updateFood', {
+        ...this.editForm,
+        id: this.currentEditId
+      })
+      .then(() => {
+        this.$message.success('更新成功');
+        this.dialogVisible = false;
+      })
+      .catch(error => {
+        this.$message.error(`更新失败: ${error.message}`);
+      });
     }
   }
 }
@@ -94,6 +107,6 @@ export default {
 
 <style scoped>
 .food-list {
-  margin-top: 20px;
+  padding: 20px;
 }
 </style>

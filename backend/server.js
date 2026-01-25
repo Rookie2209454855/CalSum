@@ -47,7 +47,7 @@ db.serialize(() => {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL,
       name TEXT NOT NULL,
-      caloriesPer100g REAL,
+      calories REAL,
       weight REAL,
       meal_type TEXT,
       date TEXT,
@@ -107,15 +107,8 @@ function formatFoodForFrontend(row) {
   obj.id = String(obj.id);
   obj.user_id = String(obj.user_id);
   
-  // 计算总热量 - 确保即使字段为null或undefined也能正确处理
-  let calories = 0;
-  if (obj.calories !== null && obj.calories !== undefined && 
-      obj.weight !== null && obj.weight !== undefined && 
-      !isNaN(obj.calories) && !isNaN(obj.weight)) {
-    calories = parseFloat(((obj.calories * obj.weight) / 100).toFixed(2));
-  }
-  
-  obj.calories = calories;
+  // 计算总热量 - 现在直接使用calories字段
+  obj.calories = obj.calories || 0;
   
   // 映射数据库字段到前端期望的字段名
   if (obj.meal_type) obj.mealType = obj.meal_type;
@@ -237,6 +230,7 @@ app.get('/api/foods', authenticateToken, (req, res) => {
 app.post('/api/foods', authenticateToken, (req, res) => {
   const { name, calories, weight, mealType, date, timestamp = new Date().toISOString() } = req.body;
   
+  // 根据前端发送的实际含义， calories 是指每100g的热量，现在直接存储到calories字段
   const sql = 'INSERT INTO foods (user_id, name, calories, weight, meal_type, date, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)';
   const params = [req.user.id, name, calories, weight, mealType, date, timestamp];
   

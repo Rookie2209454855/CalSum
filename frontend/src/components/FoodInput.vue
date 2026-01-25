@@ -75,7 +75,7 @@ export default {
       form: {
         name: '',
         weight: null,
-        calories: null,
+        calories: null,  // 使用calories字段
         date: new Date().toISOString().slice(0, 10),
         mealType: ''
       }
