@@ -1,0 +1,31 @@
+# CalSum 部署说明
+
+## 部署步骤
+
+1. 将此包解压到目标目录
+2. 根据服务器环境修改 .env 文件中的配置
+3. 安装依赖: npm run install-all
+4. 启动应用: npm run start
+
+## 环境配置
+
+请根据生产环境修改 .env 文件中的配置:
+- PORT: 服务器监听端口
+- DB_PATH: 数据库文件路径
+- JWT_SECRET: JWT 加密密钥（请使用强密钥）
+
+## 服务管理
+
+- 启动服务: npm run start
+- 查看日志: 服务日志将输出到控制台
+- 使用 PM2 管理进程 (推荐): 
+  - 安装: npm install -g pm2
+  - 启动: pm2 start scripts/start-server.js --name "calsum-app"
+  - 状态: pm2 status
+  - 日志: pm2 logs
+
+## 注意事项
+
+- 首次部署时，系统会自动创建数据库文件
+- 生产环境中请使用强密码的 JWT_SECRET
+- 定期备份 database.sqlite 数据库文件
