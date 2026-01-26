@@ -1,0 +1,412 @@
+/* ========================================
+   移动端全局样式
+   Mobile Global Styles
+   ======================================== */
+
+/* 基础设置 */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* 滚动优化 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 平板适配 */
+@media screen and (max-width: 768px) {
+  /* 防止 iOS Safari 橡皮筋效果 */
+  body {
+    overscroll-behavior-y: contain;
+  }
+
+  /* Element UI 组件全局优化 */
+  .el-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .el-card__header {
+    padding: 12px 15px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #ebeef5;
+  }
+
+  .el-card__body {
+    padding: 15px;
+  }
+
+  .el-button {
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .el-button:active {
+    transform: scale(0.98);
+  }
+
+  .el-input__inner {
+    font-size: 16px; /* 防止iOS自动缩放 */
+    border-radius: 6px;
+  }
+
+  .el-input-number {
+    width: 100%;
+  }
+
+  .el-input-number .el-input__inner {
+    text-align: left;
+    padding-left: 10px;
+  }
+
+  .el-input-number.is-controls-right .el-input-number__increase,
+  .el-input-number.is-controls-right .el-input-number__decrease {
+    background-color: #f5f7fa;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .el-select .el-input__inner {
+    padding-right: 30px;
+  }
+
+  .el-date-editor .el-input__inner {
+    padding-left: 30px;
+  }
+
+  .el-tag {
+    border-radius: 4px;
+  }
+
+  /* 表单优化 */
+  .el-form-item__label {
+    line-height: 36px;
+    padding-right: 10px;
+  }
+
+  .el-form-item__error {
+    position: relative;
+    top: 2px;
+    left: 0;
+    padding-top: 4px;
+  }
+}
+
+/* 小屏手机适配 */
+@media screen and (max-width: 480px) {
+  .el-card__header {
+    padding: 10px 12px;
+  }
+
+  .el-card__body {
+    padding: 12px;
+  }
+
+  .el-button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .el-input__inner {
+    font-size: 15px;
+    height: 34px;
+    line-height: 34px;
+  }
+
+  .el-form-item__label {
+    line-height: 34px;
+    font-size: 13px;
+  }
+
+  .el-tag {
+    padding: 2px 6px;
+    font-size: 12px;
+  }
+}
+
+/* 超小屏手机适配 */
+@media screen and (max-width: 360px) {
+  .el-card__header {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+
+  .el-card__body {
+    padding: 10px;
+  }
+
+  .el-button {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  .el-input__inner {
+    height: 32px;
+    line-height: 32px;
+  }
+
+  .el-form-item__label {
+    line-height: 32px;
+    font-size: 12px;
+  }
+}
+
+/* 横屏模式优化 */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .el-card__header {
+    padding: 8px 12px;
+  }
+
+  .el-card__body {
+    padding: 10px;
+  }
+
+  .el-form-item {
+    margin-bottom: 12px;
+  }
+
+  .el-button {
+    padding: 6px 10px;
+  }
+}
+
+/* 触控设备优化 */
+@media (hover: none) and (pointer: coarse) {
+  /* 增加触控目标尺寸 */
+  .el-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .el-input__inner,
+  .el-input-number .el-input__inner,
+  .el-select .el-input__inner {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    min-height: 44px;
+  }
+
+  .el-input-number.is-controls-right .el-input-number__increase,
+  .el-input-number.is-controls-right .el-input-number__decrease {
+    min-width: 32px;
+    min-height: 22px;
+  }
+
+  .el-checkbox__inner {
+    width: 22px;
+    height: 22px;
+  }
+
+  .el-checkbox__inner::after {
+    height: 11px;
+    left: 7px;
+    top: 3px;
+  }
+
+  .el-radio__inner {
+    width: 22px;
+    height: 22px;
+  }
+
+  .el-radio__inner::after {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* 开关组件优化 */
+  .el-switch {
+    transform: scale(1.1);
+  }
+
+  .el-switch__core {
+    height: 22px;
+    min-width: 44px;
+  }
+
+  .el-switch__button {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* 标签优化 */
+  .el-tag {
+    padding: 4px 8px;
+    font-size: 13px;
+  }
+
+  /* 卡片优化 */
+  .el-card {
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+
+  .el-card:active {
+    transform: scale(0.99);
+  }
+}
+
+/* iOS 特定优化 */
+@supports (-webkit-touch-callout: none) {
+  /* 防止iOS点击高亮 */
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+  /* 优化字体渲染 */
+  body {
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 修复iOS输入框样式 */
+  input,
+  textarea,
+  select {
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+
+  /* iOS安全区域适配 */
+  .safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* 横竖屏切换动画 */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 加载动画优化 */
+.el-loading-mask {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.el-loading-spinner {
+  border-top-color: #409EFF;
+}
+
+/* 消息提示优化 */
+.el-message {
+  min-width: 280px;
+  max-width: 90%;
+  border-radius: 8px;
+  padding: 12px 15px;
+}
+
+.el-message__content {
+  font-size: 14px;
+}
+
+/* 确认框优化 */
+.el-message-box {
+  width: 85%;
+  max-width: 400px;
+  border-radius: 12px;
+}
+
+.el-message-box__header {
+  padding: 15px 20px;
+}
+
+.el-message-box__title {
+  font-size: 16px;
+}
+
+.el-message-box__message {
+  padding: 15px 20px;
+  font-size: 14px;
+}
+
+.el-message-box__btns {
+  padding: 15px 20px;
+}
+
+.el-message-box__btns button {
+  height: 40px;
+  min-width: 80px;
+}
+
+/* 通知优化 */
+.el-notification {
+  width: 90%;
+  max-width: 360px;
+  border-radius: 8px;
+}
+
+/* 抽屉优化 */
+.el-drawer {
+  border-radius: 12px 0 0 12px;
+}
+
+/* 图片优化 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 文本选择优化 */
+::selection {
+  background: rgba(64, 158, 255, 0.3);
+}
+
+/* 焦点可见性优化 */
+*:focus-visible {
+  outline: 2px solid #409EFF;
+  outline-offset: 2px;
+}
+
+/* 无障碍优化 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 深色模式准备（可选） */
+@media (prefers-color-scheme: dark) {
+  /* 深色模式样式可在此添加 */
+}
+
+/* 打印样式 */
+@media print {
+  .el-button,
+  .el-input,
+  .el-select,
+  .el-date-editor {
+    border: 1px solid #000 !important;
+  }
+}

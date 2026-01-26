@@ -1,22 +1,57 @@
 <template>
   <div class="export-data">
-    <el-form :inline="true">
-      <el-form-item label="导出日期范围">
-        <el-date-picker
-          v-model="dateRange"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          format="yyyy-MM-dd"
-          value-format="yyyy-MM-dd">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="exportAsMarkdown">导出 Markdown</el-button>
-        <el-button type="success" @click="exportAsExcel">导出 Excel</el-button>
-      </el-form-item>
-    </el-form>
+    <el-card class="export-card">
+      <div slot="header" class="card-header">
+        <span class="header-title">数据导出</span>
+      </div>
+
+      <!-- 桌面端布局 -->
+      <el-form :inline="true" class="export-form desktop-layout">
+        <el-form-item label="导出日期范围">
+          <el-date-picker
+            v-model="dateRange"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+            style="width: 100%;">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="exportAsMarkdown">导出 Markdown</el-button>
+          <el-button type="success" @click="exportAsExcel">导出 Excel</el-button>
+        </el-form-item>
+      </el-form>
+
+      <!-- 移动端布局 -->
+      <div class="mobile-layout">
+        <el-form :model="dateRange" class="export-form" label-width="80px" size="small">
+          <el-form-item label="日期范围">
+            <el-date-picker
+              v-model="dateRange"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              style="width: 100%;">
+            </el-date-picker>
+          </el-form-item>
+        </el-form>
+
+        <div class="button-group">
+          <el-button type="primary" @click="exportAsMarkdown" class="export-btn" icon="el-icon-document">
+            <span class="btn-text">导出 Markdown</span>
+          </el-button>
+          <el-button type="success" @click="exportAsExcel" class="export-btn" icon="el-icon-document">
+            <span class="btn-text">导出 Excel</span>
+          </el-button>
+        </div>
+      </div>
+    </el-card>
   </div>
 </template>
 
@@ -182,5 +217,194 @@ export default {
 <style scoped>
 .export-data {
   margin-top: 20px;
+}
+
+.export-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.export-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px 12px 0 0;
+}
+
+.header-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.export-form .el-form-item {
+  margin-bottom: 18px;
+}
+
+/* 桌面端布局 - 默认显示 */
+.desktop-layout {
+  display: flex;
+  align-items: center;
+}
+
+/* 移动端布局 - 默认隐藏 */
+.mobile-layout {
+  display: none;
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .export-card {
+    border-radius: 8px;
+  }
+
+  .export-card .el-card__header {
+    padding: 12px 15px;
+  }
+
+  .export-card .el-card__body {
+    padding: 15px;
+  }
+
+  /* 隐藏桌面布局 */
+  .desktop-layout {
+    display: none;
+  }
+
+  /* 显示移动端布局 */
+  .mobile-layout {
+    display: block;
+  }
+
+  .mobile-layout .export-form {
+    margin-bottom: 15px;
+  }
+
+  .mobile-layout .export-form .el-form-item {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .mobile-layout .export-form .el-form-item__label {
+    width: 80px !important;
+    font-size: 14px;
+    line-height: 36px;
+  }
+
+  .mobile-layout .el-date-editor {
+    width: 100%;
+  }
+
+  .mobile-layout .el-date-editor .el-input__inner {
+    font-size: 16px;
+    height: 36px;
+    line-height: 36px;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+  }
+
+  .export-btn {
+    flex: 1;
+    height: 44px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .export-btn:active {
+    transform: scale(0.98);
+  }
+
+  .export-btn .btn-text {
+    margin-left: 4px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .export-card .el-card__body {
+    padding: 12px;
+  }
+
+  .mobile-layout .export-form .el-form-item__label {
+    width: 70px !important;
+    font-size: 13px;
+    line-height: 34px;
+  }
+
+  .mobile-layout .el-date-editor .el-input__inner {
+    height: 34px;
+    line-height: 34px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .export-btn {
+    width: 100%;
+    height: 42px;
+    font-size: 14px;
+  }
+}
+
+/* 超小屏手机适配 */
+@media screen and (max-width: 360px) {
+  .export-card .el-card__body {
+    padding: 10px;
+  }
+
+  .mobile-layout .export-form .el-form-item__label {
+    width: 65px !important;
+  }
+
+  .export-btn {
+    height: 40px;
+    font-size: 13px;
+  }
+}
+
+/* 横屏模式优化 */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .export-card .el-card__body {
+    padding: 10px;
+  }
+
+  .button-group {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .export-btn {
+    height: 38px;
+  }
+}
+
+/* 触控优化 */
+@media (hover: none) and (pointer: coarse) {
+  .export-btn {
+    min-height: 48px;
+  }
+
+  .mobile-layout .el-date-editor .el-input__inner {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    min-height: 44px;
+  }
 }
 </style>

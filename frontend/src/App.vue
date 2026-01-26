@@ -364,7 +364,9 @@ export default new Vuex.Store({
           <el-menu-item index="/manage">管理数据</el-menu-item>
           <el-menu-item index="/users" v-if="isAdmin">用户管理</el-menu-item>
         </el-menu>
-        <router-view/>
+        <div class="content-container">
+          <router-view/>
+        </div>
       </el-main>
       <el-main v-else>
         <div class="welcome-message">
@@ -374,7 +376,7 @@ export default new Vuex.Store({
       </el-main>
       
       <!-- 登录对话框 -->
-      <el-dialog title="用户登录" :visible.sync="showLoginDialog" width="400px">
+      <el-dialog title="用户登录" :visible.sync="showLoginDialog" width="400px" class="login-dialog desktop-dialog">
         <el-form :model="loginForm" :rules="formRules" ref="loginForm" label-width="80px">
           <el-form-item label="用户名" prop="username">
             <el-input v-model="loginForm.username" placeholder="请输入用户名"></el-input>
@@ -388,9 +390,25 @@ export default new Vuex.Store({
           <el-button type="primary" @click="handleLogin">登录</el-button>
         </div>
       </el-dialog>
-      
+
+      <!-- 登录对话框 - 移动端 -->
+      <el-dialog title="用户登录" :visible.sync="showLoginDialog" width="90%" class="login-dialog mobile-dialog" :modal-append-to-body="false" :close-on-click-modal="false" :lock-scroll="true">
+        <el-form :model="loginForm" :rules="formRules" ref="loginForm" label-width="70px" size="small">
+          <el-form-item label="用户名" prop="username">
+            <el-input v-model="loginForm.username" placeholder="请输入用户名"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input type="password" v-model="loginForm.password" placeholder="请输入密码"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer" style="display: flex; gap: 10px;">
+          <el-button @click="showLoginDialog = false" style="flex: 1;">取消</el-button>
+          <el-button type="primary" @click="handleLogin" style="flex: 1;">登录</el-button>
+        </div>
+      </el-dialog>
+
       <!-- 注册对话框 -->
-      <el-dialog title="用户注册" :visible.sync="showRegisterDialog" width="400px">
+      <el-dialog title="用户注册" :visible.sync="showRegisterDialog" width="400px" class="register-dialog desktop-dialog">
         <el-form :model="registerForm" :rules="formRules" ref="registerForm" label-width="80px">
           <el-form-item label="用户名" prop="username">
             <el-input v-model="registerForm.username" placeholder="请输入用户名"></el-input>
@@ -405,6 +423,25 @@ export default new Vuex.Store({
         <div slot="footer" class="dialog-footer">
           <el-button @click="showRegisterDialog = false">取消</el-button>
           <el-button type="primary" @click="handleRegister">注册</el-button>
+        </div>
+      </el-dialog>
+
+      <!-- 注册对话框 - 移动端 -->
+      <el-dialog title="用户注册" :visible.sync="showRegisterDialog" width="90%" class="register-dialog mobile-dialog" :modal-append-to-body="false" :close-on-click-modal="false" :lock-scroll="true">
+        <el-form :model="registerForm" :rules="formRules" ref="registerForm" label-width="70px" size="small">
+          <el-form-item label="用户名" prop="username">
+            <el-input v-model="registerForm.username" placeholder="请输入用户名"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="registerForm.email" placeholder="请输入邮箱"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input type="password" v-model="registerForm.password" placeholder="请输入密码"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer" style="display: flex; gap: 10px;">
+          <el-button @click="showRegisterDialog = false" style="flex: 1;">取消</el-button>
+          <el-button type="primary" @click="handleRegister" style="flex: 1;">注册</el-button>
         </div>
       </el-dialog>
       
@@ -505,29 +542,370 @@ export default {
 </script>
 
 <style>
+/* ==================== 全局样式优化 ==================== */
+
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 0 20px;
+  box-shadow: 0 2px 12px rgba(102, 126, 234, 0.15);
+}
+
+.header-content h1 {
+  font-size: 20px;
+  margin: 0;
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .user-info, .auth-buttons {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
+.user-info span {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* 导航菜单美化 */
+.el-menu.el-menu--horizontal {
+  border-bottom: none;
+  background: linear-gradient(90deg, #f5f7fa 0%, #ffffff 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.el-menu--horizontal > .el-menu-item {
+  padding: 0 20px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #606266;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  margin: 0 4px;
+}
+
+.el-menu--horizontal > .el-menu-item:hover {
+  background-color: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
+.el-menu--horizontal > .el-menu-item.is-active {
+  background-color: #667eea;
+  color: #ffffff;
+  border-radius: 6px;
+}
+
+/* 按钮美化 */
+.el-button {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.el-button--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+}
+
+.el-button--primary:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #64349a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.el-button--primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.2);
+}
+
+.el-button--success {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  border: none;
+}
+
+.el-button--success:hover {
+  background: linear-gradient(135deg, #0e7f63 0%, #2dc97a 100%);
+  transform: translateY(-2px);
+}
+
+.el-button--success:active {
+  transform: translateY(0);
+}
+
+.el-button--danger {
+  background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+  border: none;
+}
+
+.el-button--danger:hover {
+  background: linear-gradient(135deg, #d62a2b 0%, #d9423d 100%);
+  transform: translateY(-2px);
+}
+
+.el-button--danger:active {
+  transform: translateY(0);
+}
+
+/* 欢迎消息优化 */
 .welcome-message {
   text-align: center;
-  padding: 40px 20px;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  margin: 20px;
 }
 
 .welcome-message h2 {
-  color: #333;
+  color: #667eea;
   margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .welcome-message p {
   color: #666;
   font-size: 16px;
+  line-height: 1.8;
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .header-content h1 {
+    font-size: 16px;
+  }
+
+  .user-info, .auth-buttons {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .el-header {
+    padding: 10px !important;
+    height: auto !important;
+  }
+
+  .el-main {
+    padding: 10px !important;
+  }
+
+  .el-menu.el-menu--horizontal {
+    border-bottom: none;
+  }
+
+  .el-menu--horizontal > .el-menu-item {
+    padding: 0 10px;
+    font-size: 14px;
+  }
+
+  .el-dialog {
+    width: 90% !important;
+    margin-top: 5vh !important;
+    border-radius: 12px;
+  }
+
+  .el-dialog__header {
+    padding: 15px 20px;
+    background-color: #f5f7fa;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .el-dialog__title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .el-dialog__body {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .el-dialog__footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+  }
+
+  .el-form-item__label {
+    width: 70px !important;
+    font-size: 14px;
+    line-height: 36px;
+  }
+
+  .el-dialog .el-input__inner {
+    font-size: 16px;
+    height: 36px;
+    line-height: 36px;
+  }
+
+  .dialog-footer .el-button {
+    height: 40px;
+    font-size: 15px;
+    border-radius: 8px;
+  }
+
+  .dialog-footer .el-button:active {
+    transform: scale(0.98);
+  }
+
+  /* 对话框内表单输入框统一高度 */
+  .el-dialog .el-input__inner {
+    height: 40px;
+    line-height: 40px;
+  }
+
+  /* 对话框内表单标签对齐 */
+  .el-dialog .el-form-item__label {
+    text-align: right;
+    padding-right: 12px;
+    line-height: 40px;
+  }
+
+  .content-container {
+    padding: 10px 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .el-menu--horizontal > .el-menu-item {
+    padding: 0 8px;
+    font-size: 13px;
+  }
+
+  /* 移动端对话框优化 */
+  .el-dialog {
+    width: 92% !important;
+  }
+
+  .el-dialog__header {
+    padding: 12px 15px;
+  }
+
+  .el-dialog__body {
+    padding: 15px;
+  }
+
+  .el-dialog__footer {
+    padding: 12px 15px;
+  }
+
+  .el-dialog__title {
+    font-size: 15px;
+  }
+
+  .el-form-item__label {
+    width: 65px !important;
+    font-size: 13px;
+    line-height: 34px;
+  }
+
+  .el-dialog .el-input__inner {
+    height: 34px;
+    line-height: 34px;
+  }
+
+  .dialog-footer .el-button {
+    height: 38px;
+    font-size: 14px;
+  }
+}
+
+/* 超小屏手机适配 */
+@media screen and (max-width: 360px) {
+  .el-dialog {
+    width: 95% !important;
+  }
+
+  .el-dialog__header {
+    padding: 10px 12px;
+  }
+
+  .el-dialog__title {
+    font-size: 14px;
+  }
+
+  .el-dialog__body {
+    padding: 12px;
+  }
+
+  .el-dialog__footer {
+    padding: 10px 12px;
+  }
+
+  .el-form-item__label {
+    width: 60px !important;
+  }
+
+  .dialog-footer .el-button {
+    height: 36px;
+    font-size: 13px;
+  }
+}
+
+/* 横屏对话框优化 */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .el-dialog {
+    max-height: 90vh;
+  }
+
+  .el-dialog__body {
+    max-height: 50vh;
+    padding: 12px;
+  }
+
+  .el-dialog__header {
+    padding: 10px 15px;
+  }
+
+  .el-dialog__footer {
+    padding: 10px 15px;
+  }
+
+  .dialog-footer .el-button {
+    height: 36px;
+  }
+}
+
+/* 触控优化 */
+@media (hover: none) and (pointer: coarse) {
+  /* 对话框内输入框优化 */
+  .el-dialog .el-input__inner {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    min-height: 44px;
+  }
+
+  /* 对话框按钮优化 */
+  .dialog-footer .el-button {
+    min-height: 48px;
+    font-size: 15px;
+  }
+}
+
+/* 桌面端隐藏移动对话框 */
+@media screen and (min-width: 769px) {
+  .mobile-dialog {
+    display: none !important;
+  }
 }
 </style>
