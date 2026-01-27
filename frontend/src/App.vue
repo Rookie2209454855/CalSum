@@ -376,7 +376,7 @@ export default new Vuex.Store({
       </el-main>
       
       <!-- 登录对话框 -->
-      <el-dialog title="用户登录" :visible.sync="showLoginDialog" width="400px" class="login-dialog desktop-dialog">
+      <el-dialog title="用户登录" :visible.sync="showLoginDialog" width="400px" class="login-dialog desktop-dialog" :modal-append-to-body="true">
         <el-form :model="loginForm" :rules="formRules" ref="loginForm" label-width="80px">
           <el-form-item label="用户名" prop="username">
             <el-input v-model="loginForm.username" placeholder="请输入用户名"></el-input>
@@ -392,7 +392,7 @@ export default new Vuex.Store({
       </el-dialog>
 
       <!-- 登录对话框 - 移动端 -->
-      <el-dialog title="用户登录" :visible.sync="showLoginDialog" width="90%" class="login-dialog mobile-dialog" :modal-append-to-body="false" :close-on-click-modal="false" :lock-scroll="true">
+      <el-dialog title="用户登录" :visible.sync="showLoginDialog" width="90%" class="login-dialog mobile-dialog" :modal-append-to-body="true" :close-on-click-modal="false" :lock-scroll="true">
         <el-form :model="loginForm" :rules="formRules" ref="loginForm" label-width="70px" size="small">
           <el-form-item label="用户名" prop="username">
             <el-input v-model="loginForm.username" placeholder="请输入用户名"></el-input>
@@ -408,7 +408,7 @@ export default new Vuex.Store({
       </el-dialog>
 
       <!-- 注册对话框 -->
-      <el-dialog title="用户注册" :visible.sync="showRegisterDialog" width="400px" class="register-dialog desktop-dialog">
+      <el-dialog title="用户注册" :visible.sync="showRegisterDialog" width="400px" class="register-dialog desktop-dialog" :modal-append-to-body="true">
         <el-form :model="registerForm" :rules="formRules" ref="registerForm" label-width="80px">
           <el-form-item label="用户名" prop="username">
             <el-input v-model="registerForm.username" placeholder="请输入用户名"></el-input>
@@ -427,7 +427,7 @@ export default new Vuex.Store({
       </el-dialog>
 
       <!-- 注册对话框 - 移动端 -->
-      <el-dialog title="用户注册" :visible.sync="showRegisterDialog" width="90%" class="register-dialog mobile-dialog" :modal-append-to-body="false" :close-on-click-modal="false" :lock-scroll="true">
+      <el-dialog title="用户注册" :visible.sync="showRegisterDialog" width="90%" class="register-dialog mobile-dialog" :modal-append-to-body="true" :close-on-click-modal="false" :lock-scroll="true">
         <el-form :model="registerForm" :rules="formRules" ref="registerForm" label-width="70px" size="small">
           <el-form-item label="用户名" prop="username">
             <el-input v-model="registerForm.username" placeholder="请输入用户名"></el-input>
@@ -906,6 +906,19 @@ export default {
 @media screen and (min-width: 769px) {
   .mobile-dialog {
     display: none !important;
+  }
+  
+  /* 修复PC端弹窗层级问题 */
+  .desktop-dialog {
+    z-index: 2000 !important;
+  }
+  
+  .el-dialog__wrapper {
+    z-index: 2000 !important;
+  }
+  
+  .v-modal {
+    z-index: 1999 !important;
   }
 }
 </style>

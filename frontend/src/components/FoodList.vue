@@ -44,7 +44,7 @@
     </div>
 
     <!-- 编辑弹窗 - 桌面端 -->
-    <el-dialog title="编辑食物记录" :visible.sync="dialogVisible" width="50%" :modal-append-to-body="false" class="desktop-dialog">
+    <el-dialog title="编辑食物记录" :visible.sync="dialogVisible" width="50%" :modal-append-to-body="true" class="desktop-dialog">
       <el-form :model="editForm" label-width="120px">
         <el-form-item label="食物名称">
           <el-input v-model="editForm.name"></el-input>
@@ -80,7 +80,7 @@
     </el-dialog>
 
     <!-- 编辑弹窗 - 移动端 -->
-    <el-dialog title="编辑食物记录" :visible.sync="dialogVisible" width="90%" :modal-append-to-body="false" class="mobile-dialog" :close-on-click-modal="false" :lock-scroll="true">
+    <el-dialog title="编辑食物记录" :visible.sync="dialogVisible" width="90%" :modal-append-to-body="true" class="mobile-dialog" :close-on-click-modal="false" :lock-scroll="true">
       <el-form :model="editForm" label-width="80px" size="small">
         <el-form-item label="食物名称">
           <el-input v-model="editForm.name" placeholder="请输入食物名称"></el-input>

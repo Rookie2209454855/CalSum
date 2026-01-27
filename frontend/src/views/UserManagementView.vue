@@ -99,7 +99,7 @@
     </el-pagination>
 
     <!-- 用户详情对话框 -->
-    <el-dialog title="用户详情" :visible.sync="detailDialogVisible" width="600px" class="desktop-dialog">
+    <el-dialog title="用户详情" :visible.sync="detailDialogVisible" width="600px" class="desktop-dialog" :modal-append-to-body="true">
       <div v-if="selectedUser" class="user-details">
         <p><strong>用户名:</strong> {{ selectedUser.username }}</p>
         <p><strong>邮箱:</strong> {{ selectedUser.email }}</p>
@@ -113,7 +113,7 @@
     </el-dialog>
 
     <!-- 用户详情对话框 - 移动端 -->
-    <el-dialog title="用户详情" :visible.sync="detailDialogVisible" width="90%" class="mobile-dialog" :modal-append-to-body="false" :close-on-click-modal="false" :lock-scroll="true">
+    <el-dialog title="用户详情" :visible.sync="detailDialogVisible" width="90%" class="mobile-dialog" :modal-append-to-body="true" :close-on-click-modal="false" :lock-scroll="true">
       <div v-if="selectedUser" class="user-details mobile-user-details">
         <p><strong>用户名:</strong> {{ selectedUser.username }}</p>
         <p><strong>邮箱:</strong> {{ selectedUser.email }}</p>
